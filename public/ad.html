@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+body{margin:0;padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:transparent;}
+</style></head><body>
+<script>
+var id = new URLSearchParams(window.location.search).get('id');
+if (id && /^[a-f0-9]{32}$/.test(id)) {
+  document.write('<scr'+'ipt src="https://adm.shinobi.jp/s/' + id + '"></scr'+'ipt>');
+}
+</script>
+</body></html>
