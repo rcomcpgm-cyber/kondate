@@ -451,14 +451,9 @@ export default function ResultScreen() {
   }
 
   if (!result) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>エラーが発生しました</Text>
-        <TouchableOpacity style={styles.retryButton} onPress={handleBack}>
-          <Text style={styles.retryButtonText}>戻る</Text>
-        </TouchableOpacity>
-      </View>
-    );
+    // リロード時はresultが消えるのでホームに戻す
+    router.replace('/');
+    return null;
   }
 
   const mainRarity = result.main.rarity;
