@@ -16,6 +16,7 @@ import { usePreferencesStore } from '../../src/stores/preferencesStore';
 import { useFavoritesStore } from '../../src/stores/favoritesStore';
 import { AdBanner } from '../../src/components/AdBanner';
 import { RARITY_CONFIG, rarityStars } from '../../src/constants/rarity';
+import { RarityBadge } from '../../src/components/RarityBadge';
 import { getSubstitutions } from '../../src/constants/substitutions';
 import type { Recipe } from '../../src/types';
 
@@ -225,17 +226,7 @@ export default function RecipeDetailScreen() {
           <View style={styles.labelBadge}>
             <Text style={styles.labelBadgeText}>{emoji} {label}</Text>
           </View>
-          <View style={[
-            styles.rarityBadge,
-            {
-              backgroundColor: RARITY_CONFIG[recipe.rarity].bgColor,
-              borderColor: RARITY_CONFIG[recipe.rarity].borderColor,
-            },
-          ]}>
-            <Text style={[styles.rarityBadgeText, { color: RARITY_CONFIG[recipe.rarity].color }]}>
-              {RARITY_CONFIG[recipe.rarity].emoji} {recipe.rarity} {rarityStars(recipe.rarity)}
-            </Text>
-          </View>
+          <RarityBadge rarity={recipe.rarity} size="small" />
           {recipe.difficulty === 'beginner' && (
             <View style={styles.beginnerBadge}>
               <Text style={styles.beginnerBadgeText}>🔰 初心者OK</Text>
@@ -533,16 +524,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     flexWrap: 'wrap',
   },
-  rarityBadge: {
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-  },
-  rarityBadgeText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
+  // (RarityBadge styles now in src/components/RarityBadge.tsx)
   labelBadge: {
     alignSelf: 'flex-start',
     paddingVertical: 6,

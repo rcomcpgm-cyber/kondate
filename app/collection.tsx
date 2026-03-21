@@ -9,6 +9,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useFavoritesStore } from '../src/stores/favoritesStore';
 import { RARITY_CONFIG, rarityStars } from '../src/constants/rarity';
+import { RarityBadge } from '../src/components/RarityBadge';
 import type { Rarity } from '../src/types';
 import type { FavoriteRecipe } from '../src/stores/favoritesStore';
 
@@ -73,9 +74,7 @@ export default function CollectionScreen() {
             return (
               <View key={rarity} style={styles.progressRow}>
                 <View style={styles.progressLabel}>
-                  <Text style={[styles.progressRarity, { color: config.color }]}>
-                    {config.emoji} {rarity}
-                  </Text>
+                  <RarityBadge rarity={rarity} size="small" />
                   <Text style={styles.progressCount}>
                     {count} / {total}
                   </Text>
@@ -126,9 +125,7 @@ export default function CollectionScreen() {
                     ]}
                   >
                     <View style={styles.recipeCardHeader}>
-                      <Text style={[styles.rarityBadgeText, { color: config.color }]}>
-                        {rarityStars(rarity)}
-                      </Text>
+                      <RarityBadge rarity={rarity} size="small" />
                       <Text style={styles.mealTypeEmoji}>
                         {MEAL_TYPE_EMOJI[fav.mealType] ?? '🍽️'}
                       </Text>
@@ -211,10 +208,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 4,
   },
-  progressRarity: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
+  // (progressRarity replaced by RarityBadge component)
   progressCount: {
     fontSize: 13,
     color: '#8B7355',
@@ -256,10 +250,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 6,
   },
-  rarityBadgeText: {
-    fontSize: 11,
-    fontWeight: '700',
-  },
+  // (RarityBadge styles now in src/components/RarityBadge.tsx)
   mealTypeEmoji: {
     fontSize: 16,
   },

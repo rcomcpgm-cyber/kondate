@@ -27,6 +27,7 @@ import { useSubscriptionStore } from '../src/stores/subscriptionStore';
 import { useHistoryStore } from '../src/stores/historyStore';
 import { AdBanner } from '../src/components/AdBanner';
 import { RARITY_CONFIG, rarityStars } from '../src/constants/rarity';
+import { RarityBadge } from '../src/components/RarityBadge';
 import type { Rarity } from '../src/types';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -236,18 +237,8 @@ function DotAnimation({ delay }: { delay: number }) {
   return <Animated.View style={[styles.dot, style]} />;
 }
 
-function RarityBadge({ rarity }: { rarity: Rarity }) {
-  const config = RARITY_CONFIG[rarity];
-  return (
-    <View style={[styles.rarityBadge, { backgroundColor: config.bgColor, borderColor: config.borderColor }]}>
-      <Text style={[styles.rarityBadgeText, { color: config.color }]}>
-        {config.emoji} {rarity}
-      </Text>
-      <Text style={[styles.rarityStars, { color: config.color }]}>
-        {rarityStars(rarity)}
-      </Text>
-    </View>
-  );
+function ResultRarityBadge({ rarity }: { rarity: Rarity }) {
+  return <RarityBadge rarity={rarity} size="large" />;
 }
 
 interface RecipeCardProps {
@@ -352,19 +343,7 @@ function RecipeCard({ emoji, label, recipeName, cookingTime, calories, rarity, t
           <View style={styles.recipeCardInfo}>
             <View style={styles.recipeCardLabelRow}>
               <Text style={styles.recipeCardLabel}>{label}</Text>
-              <View style={[
-                styles.rarityMini,
-                { backgroundColor: config.bgColor },
-                rarity === 'SSR' && styles.rarityMiniSSR,
-              ]}>
-                <Text style={[
-                  styles.rarityMiniText,
-                  { color: config.color },
-                  rarity === 'SSR' && { fontSize: 12 },
-                ]}>
-                  {config.emoji} {rarity}
-                </Text>
-              </View>
+              <RarityBadge rarity={rarity} size="small" />
             </View>
             <Text style={[
               styles.recipeCardName,
@@ -471,7 +450,7 @@ export default function ResultScreen() {
 
       {/* Header with rarity */}
       <Animated.View style={[styles.resultHeader, headerStyle]}>
-        <RarityBadge rarity={mainRarity} />
+        <ResultRarityBadge rarity={mainRarity} />
         <Text style={styles.resultEmoji}>
           {mainRarity === 'SSR' ? '🌈✨🌈' : mainRarity === 'SR' ? '✨🏆✨' : '🎉'}
         </Text>
@@ -729,43 +708,7 @@ const styles = StyleSheet.create({
     color: '#8B7355',
     marginTop: 4,
   },
-  // Rarity badge
-  rarityBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 14,
-    borderWidth: 1.5,
-    marginBottom: 12,
-    gap: 8,
-  },
-  rarityBadgeText: {
-    fontSize: 15,
-    fontWeight: '800',
-  },
-  rarityStars: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  // Mini rarity on cards
-  rarityMini: {
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 6,
-    marginLeft: 6,
-  },
-  rarityMiniSSR: {
-    paddingVertical: 3,
-    paddingHorizontal: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#CE93D8',
-  },
-  rarityMiniText: {
-    fontSize: 10,
-    fontWeight: '800',
-  },
+  // (RarityBadge styles now in src/components/RarityBadge.tsx)
   ssrStars: {
     fontSize: 12,
     color: '#E040FB',

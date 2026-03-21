@@ -3,6 +3,17 @@
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(Twitterbot|facebookexternalhit|Slackbot|LinkedInBot|Discordbot|LINE|Pinterestbot|Applebot|Googlebot|bingbot|TelegramBot|Whatsapp).*"
+        }
+      ],
+      "destination": "/api/ogp?path=/:path*"
+    },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
   "headers": [
