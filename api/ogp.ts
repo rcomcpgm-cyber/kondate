@@ -61,7 +61,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   <meta property="og:locale" content="ja_JP" />
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapeHtml(displayTitle)}" />
   <meta name="twitter:description" content="${escapeHtml(ogDescription)}" />
   <meta name="twitter:image" content="${escapeHtml(ogImage)}" />

@@ -3,7 +3,7 @@ export type Genre =
   | 'japanese' | 'chinese' | 'western' | 'korean' | 'ethnic'
   | 'italian' | 'thai' | 'indian' | 'mexican'
   | 'random';
-export type Mood = 'refreshing' | 'hearty' | 'healthy' | 'rich' | 'spicy' | 'salty' | 'sweet';
+export type Mood = 'refreshing' | 'hearty' | 'binge' | 'healthy' | 'rich' | 'spicy' | 'salty' | 'sweet';
 export type CookingTime = 'quick' | 'normal' | 'slow';
 export type Servings = 1 | 2 | 4;
 export type SubscriptionTier = 'free' | 'premium';

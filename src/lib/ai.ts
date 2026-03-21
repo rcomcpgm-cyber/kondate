@@ -23,6 +23,7 @@ const GENRE_LABELS: Record<string, string> = {
 const MOOD_LABELS: Record<string, string> = {
   refreshing: 'さっぱり',
   hearty: 'がっつり',
+  binge: '爆食（ボリューム満点・大盛り・ジャンクOK）',
   healthy: 'ヘルシー',
   rich: 'こってり',
   spicy: '辛い',

@@ -19,7 +19,13 @@ function useWebSEO() {
   useEffect(() => {
     if (Platform.OS !== 'web') return;
 
-    document.title = '献立ガチャ｜3秒で今日の晩ごはんが決まる無料アプリ';
+    const TITLE = '献立ガチャ｜3秒で今日の晩ごはんが決まる無料アプリ';
+    const DESC = '毎日の「何作ろう…」をガチャで解決。気分とジャンルを選んでガチャを回すだけで、主菜・副菜・汁物の献立が3秒で決まります。無料・登録不要。';
+    const URL = 'https://kondate-nu.vercel.app/lp';
+    const IMAGE = 'https://kondate-nu.vercel.app/og-image.png';
+
+    document.title = TITLE;
+    document.documentElement.lang = 'ja';
 
     const setMeta = (name: string, content: string, attr = 'name') => {
       let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
@@ -31,14 +37,66 @@ function useWebSEO() {
       el.content = content;
     };
 
-    setMeta('description', '毎日の「何作ろう…」をガチャで解決。気分とジャンルを選んでガチャを回すだけで、主菜・副菜・汁物の献立が3秒で決まります。無料・登録不要。');
-    setMeta('keywords', '献立,献立ガチャ,今日の献立,晩ごはん,レシピ,献立アプリ,料理,時短');
-    setMeta('og:title', '献立ガチャ｜3秒で今日の晩ごはんが決まる', 'property');
-    setMeta('og:description', 'ガチャを回すだけ。主菜・副菜・汁物の献立が3秒で決まる無料アプリ。', 'property');
+    const setLink = (rel: string, href: string) => {
+      let el = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
+      if (!el) {
+        el = document.createElement('link');
+        el.rel = rel;
+        document.head.appendChild(el);
+      }
+      el.href = href;
+    };
+
+    // Basic meta
+    setMeta('description', DESC);
+    setMeta('keywords', '献立,献立ガチャ,今日の献立,晩ごはん,レシピ,献立アプリ,料理,時短,献立決め,夕飯,ガチャ,AI献立');
+
+    // Canonical
+    setLink('canonical', URL);
+
+    // OGP
+    setMeta('og:title', TITLE, 'property');
+    setMeta('og:description', DESC, 'property');
     setMeta('og:type', 'website', 'property');
+    setMeta('og:url', URL, 'property');
+    setMeta('og:image', IMAGE, 'property');
+    setMeta('og:image:width', '1024', 'property');
+    setMeta('og:image:height', '1024', 'property');
+    setMeta('og:site_name', '献立ガチャ', 'property');
+    setMeta('og:locale', 'ja_JP', 'property');
+
+    // Twitter Card
     setMeta('twitter:card', 'summary_large_image');
-    setMeta('twitter:title', '献立ガチャ｜3秒で今日の晩ごはんが決まる');
-    setMeta('twitter:description', 'ガチャを回すだけ。主菜・副菜・汁物の献立が3秒で決まる無料アプリ。');
+    setMeta('twitter:title', TITLE);
+    setMeta('twitter:description', DESC);
+    setMeta('twitter:image', IMAGE);
+
+    // JSON-LD structured data
+    let ld = document.querySelector('script[type="application/ld+json"]');
+    if (!ld) {
+      ld = document.createElement('script');
+      ld.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(ld);
+    }
+    ld.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: '献立ガチャ',
+      url: 'https://kondate-nu.vercel.app',
+      description: DESC,
+      applicationCategory: 'LifestyleApplication',
+      operatingSystem: 'Web',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'JPY',
+      },
+      inLanguage: 'ja',
+      author: {
+        '@type': 'Organization',
+        name: '献立ガチャ',
+      },
+    });
   }, []);
 }
 

@@ -39,7 +39,7 @@ export default function RootLayout() {
           <meta property="og:locale" content="ja_JP" />
 
           {/* Twitter Card */}
-          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content={OGP.title} />
           <meta name="twitter:description" content={OGP.description} />
           <meta name="twitter:image" content={OGP.image} />

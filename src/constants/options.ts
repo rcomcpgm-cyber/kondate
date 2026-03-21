@@ -5,6 +5,7 @@ export const MEAL_TIMES = [
 ] as const;
 
 export const GENRES = [
+  { id: 'random', label: 'おまかせ', emoji: '🎲' },
   { id: 'japanese', label: '和食', emoji: '🍱' },
   { id: 'chinese', label: '中華', emoji: '🥟' },
   { id: 'western', label: '洋食', emoji: '🍝' },
@@ -14,12 +15,12 @@ export const GENRES = [
   { id: 'indian', label: 'インド', emoji: '🍛' },
   { id: 'mexican', label: 'メキシカン', emoji: '🌮' },
   { id: 'ethnic', label: 'エスニック', emoji: '🍜' },
-  { id: 'random', label: 'おまかせ', emoji: '🎲' },
 ] as const;
 
 export const MOODS = [
   { id: 'refreshing', label: 'さっぱり', emoji: '🧊' },
   { id: 'hearty', label: 'がっつり', emoji: '🔥' },
+  { id: 'binge', label: '爆食', emoji: '🍖' },
   { id: 'healthy', label: 'ヘルシー', emoji: '🥬' },
   { id: 'rich', label: 'こってり', emoji: '🧈' },
   { id: 'spicy', label: 'ピリ辛', emoji: '🌶️' },
