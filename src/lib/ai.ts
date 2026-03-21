@@ -23,7 +23,6 @@ const GENRE_LABELS: Record<string, string> = {
 const MOOD_LABELS: Record<string, string> = {
   refreshing: 'さっぱり',
   hearty: 'がっつり',
-  binge: '爆食（ボリューム満点・大盛り・ジャンクOK）',
   healthy: 'ヘルシー',
   rich: 'こってり',
   spicy: '辛い',
@@ -74,6 +73,10 @@ function buildUserPrompt(
 
   if (selection.dietMode) {
     prompt += `\n\n【ダイエットモード】3品合計で600kcal以内に抑えてください。高タンパク・低脂質を意識してください。`;
+  }
+
+  if (selection.bingeMode) {
+    prompt += `\n\n【爆食モード】ボリューム満点の献立を提案してください。大盛り・こってり・ガツンとくる味付けでOK。カロリーは気にせず、満足感とインパクト重視で。揚げ物・肉料理・炭水化物たっぷりOK。`;
   }
 
   if (selection.beginnerMode) {

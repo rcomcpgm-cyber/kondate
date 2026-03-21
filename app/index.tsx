@@ -106,6 +106,7 @@ export default function HomeScreen() {
     setCookingTime,
     setServings,
     setDietMode,
+    setBingeMode,
     setBeginnerMode,
     setGentleMode,
     toggleGentleOption,
@@ -253,23 +254,62 @@ export default function HomeScreen() {
         {/* Mode Toggles */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>🎯 モード</Text>
-          <View style={styles.modeRow}>
+
+          {/* Volume segment: diet / standard / binge */}
+          <View style={styles.segmentContainer}>
             <TouchableOpacity
-              style={[styles.modeToggle, selection.dietMode && styles.modeToggleActive]}
+              style={[
+                styles.segmentLeft,
+                selection.dietMode && styles.segmentDietActive,
+              ]}
               onPress={() => {
                 Haptics.selectionAsync();
                 setDietMode(!selection.dietMode);
               }}
               activeOpacity={0.7}
             >
-              <Text style={styles.modeToggleEmoji}>🥗</Text>
-              <Text style={[styles.modeToggleLabel, selection.dietMode && styles.modeToggleLabelActive]}>
+              <Text style={styles.segmentEmoji}>🥗</Text>
+              <Text style={[styles.segmentLabel, selection.dietMode && styles.segmentDietLabelActive]}>
                 ダイエット
               </Text>
-              <Text style={[styles.modeToggleDesc, selection.dietMode && styles.modeToggleDescActive]}>
-                600kcal以内
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.segmentCenter,
+                !selection.dietMode && !selection.bingeMode && styles.segmentStandardActive,
+              ]}
+              onPress={() => {
+                Haptics.selectionAsync();
+                setDietMode(false);
+                setBingeMode(false);
+              }}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.segmentEmoji}>🍽️</Text>
+              <Text style={[styles.segmentLabel, !selection.dietMode && !selection.bingeMode && styles.segmentStandardLabelActive]}>
+                標準
               </Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.segmentRight,
+                selection.bingeMode && styles.segmentBingeActive,
+              ]}
+              onPress={() => {
+                Haptics.selectionAsync();
+                setBingeMode(!selection.bingeMode);
+              }}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.segmentEmoji}>🍖</Text>
+              <Text style={[styles.segmentLabel, selection.bingeMode && styles.segmentBingeLabelActive]}>
+                爆食
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Other mode toggles */}
+          <View style={styles.modeRow}>
             <TouchableOpacity
               style={[styles.modeToggle, selection.beginnerMode && styles.modeToggleActive]}
               onPress={() => {
@@ -734,6 +774,64 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
     color: '#F9A825',
+  },
+  // Volume segment (diet / standard / binge)
+  segmentContainer: {
+    flexDirection: 'row',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E0D8CC',
+    overflow: 'hidden',
+    marginBottom: 12,
+  },
+  segmentLeft: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 14,
+    backgroundColor: '#FFFFFF',
+    borderRightWidth: 1,
+    borderRightColor: '#E0D8CC',
+  },
+  segmentCenter: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 14,
+    backgroundColor: '#FFFFFF',
+    borderRightWidth: 1,
+    borderRightColor: '#E0D8CC',
+  },
+  segmentRight: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 14,
+    backgroundColor: '#FFFFFF',
+  },
+  segmentEmoji: {
+    fontSize: 22,
+    marginBottom: 4,
+  },
+  segmentLabel: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#8B7355',
+  },
+  segmentDietActive: {
+    backgroundColor: '#E8F5E9',
+  },
+  segmentDietLabelActive: {
+    color: '#2E7D32',
+  },
+  segmentStandardActive: {
+    backgroundColor: '#FFF3E0',
+  },
+  segmentStandardLabelActive: {
+    color: '#E65100',
+  },
+  segmentBingeActive: {
+    backgroundColor: '#FFEBEE',
+  },
+  segmentBingeLabelActive: {
+    color: '#C62828',
   },
   // Mode toggles
   modeRow: {

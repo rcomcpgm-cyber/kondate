@@ -20,7 +20,6 @@ export const GENRES = [
 export const MOODS = [
   { id: 'refreshing', label: 'さっぱり', emoji: '🧊' },
   { id: 'hearty', label: 'がっつり', emoji: '🔥' },
-  { id: 'binge', label: '爆食', emoji: '🍖' },
   { id: 'healthy', label: 'ヘルシー', emoji: '🥬' },
   { id: 'rich', label: 'こってり', emoji: '🧈' },
   { id: 'spicy', label: 'ピリ辛', emoji: '🌶️' },

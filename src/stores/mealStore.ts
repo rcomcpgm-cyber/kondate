@@ -17,6 +17,7 @@ interface MealState {
   setCookingTime: (cookingTime: CookingTime) => void;
   setServings: (servings: Servings) => void;
   setDietMode: (on: boolean) => void;
+  setBingeMode: (on: boolean) => void;
   setBeginnerMode: (on: boolean) => void;
   setGentleMode: (on: boolean) => void;
   toggleGentleOption: (option: GentleOption) => void;
@@ -32,6 +33,7 @@ export const useMealStore = create<MealState>((set, get) => ({
     cookingTime: 'normal',
     servings: 2,
     dietMode: false,
+    bingeMode: false,
     beginnerMode: false,
     gentleMode: false,
     gentleOptions: [],
@@ -60,7 +62,14 @@ export const useMealStore = create<MealState>((set, get) => ({
     set((state) => ({ selection: { ...state.selection, servings } })),
 
   setDietMode: (dietMode) =>
-    set((state) => ({ selection: { ...state.selection, dietMode } })),
+    set((state) => ({
+      selection: { ...state.selection, dietMode, bingeMode: dietMode ? false : state.selection.bingeMode },
+    })),
+
+  setBingeMode: (bingeMode) =>
+    set((state) => ({
+      selection: { ...state.selection, bingeMode, dietMode: bingeMode ? false : state.selection.dietMode },
+    })),
 
   setBeginnerMode: (beginnerMode) =>
     set((state) => ({ selection: { ...state.selection, beginnerMode } })),
