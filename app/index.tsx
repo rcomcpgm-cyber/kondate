@@ -13,6 +13,7 @@ import * as Haptics from 'expo-haptics';
 import { useMealStore } from '../src/stores/mealStore';
 import { useSubscriptionStore } from '../src/stores/subscriptionStore';
 import { usePreferencesStore } from '../src/stores/preferencesStore';
+import { RewardAdModal } from '../src/components/RewardAdModal';
 import { useHistoryStore } from '../src/stores/historyStore';
 import { getItem } from '../src/lib/storage';
 import {
@@ -98,6 +99,7 @@ export default function HomeScreen() {
   }, [router]);
 
   const [showUpsell, setShowUpsell] = useState(false);
+  const [showRewardAd, setShowRewardAd] = useState(false);
   const {
     selection,
     setMealTime,
@@ -118,6 +120,8 @@ export default function HomeScreen() {
     isPremium,
     getRemaining,
     getDailyLimit,
+    canWatchRewardAd,
+    addRewardBonus,
     purchase,
   } = useSubscriptionStore();
   const dislikedCount = usePreferencesStore((s) => s.dislikedIngredients.length);
@@ -238,14 +242,26 @@ export default function HomeScreen() {
                 <Text style={styles.remainingHint}>あと少し！</Text>
               )}
               {remaining === 0 && (
-                <TouchableOpacity
-                  style={styles.upsellMini}
-                  onPress={() => setShowUpsell(true)}
-                >
-                  <Text style={styles.upsellMiniText}>
-                    🚬 IQOS代おごって無制限に →
-                  </Text>
-                </TouchableOpacity>
+                <>
+                  {canWatchRewardAd() && (
+                    <TouchableOpacity
+                      style={styles.rewardAdMini}
+                      onPress={() => setShowRewardAd(true)}
+                    >
+                      <Text style={styles.rewardAdMiniText}>
+                        🎬 広告を見てガチャ+1回
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                  <TouchableOpacity
+                    style={styles.upsellMini}
+                    onPress={() => setShowUpsell(true)}
+                  >
+                    <Text style={styles.upsellMiniText}>
+                      🚬 IQOS代おごって無制限に →
+                    </Text>
+                  </TouchableOpacity>
+                </>
               )}
             </View>
           )}
@@ -577,6 +593,17 @@ export default function HomeScreen() {
           </Text>
         </TouchableOpacity>
 
+        {/* Reward Ad Button (shown when gacha depleted) */}
+        {!premium && remaining === 0 && canWatchRewardAd() && (
+          <TouchableOpacity
+            style={styles.rewardAdButton}
+            onPress={() => setShowRewardAd(true)}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.rewardAdButtonText}>🎬 広告を見てガチャ+1回もらう</Text>
+          </TouchableOpacity>
+        )}
+
         {/* Weekly Meal Plan Button */}
         <TouchableOpacity
           style={styles.weeklyButton}
@@ -604,6 +631,14 @@ export default function HomeScreen() {
         visible={showUpsell}
         onClose={() => setShowUpsell(false)}
         onPurchase={handleUpsellPurchase}
+      />
+      <RewardAdModal
+        visible={showRewardAd}
+        onClose={() => setShowRewardAd(false)}
+        onRewardEarned={() => {
+          addRewardBonus();
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        }}
       />
     </>
   );
@@ -760,6 +795,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FF4444',
     marginTop: 6,
+  },
+  rewardAdMini: {
+    marginTop: 8,
+    paddingVertical: 8,
+    backgroundColor: '#E3F2FD',
+    borderRadius: 10,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#42A5F5',
+  },
+  rewardAdMiniText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#1976D2',
   },
   upsellMini: {
     marginTop: 8,
@@ -1111,6 +1160,24 @@ const styles = StyleSheet.create({
   gachaButtonDisabled: {
     backgroundColor: '#C4B5A5',
     shadowColor: '#C4B5A5',
+  },
+  rewardAdButton: {
+    marginTop: 12,
+    paddingVertical: 16,
+    borderRadius: 24,
+    backgroundColor: '#1976D2',
+    alignItems: 'center',
+    marginHorizontal: 20,
+    shadowColor: '#1976D2',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  rewardAdButtonText: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#FFFFFF',
   },
   gachaButtonEmoji: {
     fontSize: 36,

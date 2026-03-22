@@ -9,12 +9,16 @@ interface SubscriptionState {
   dailyGachaCount: number;
   lastGachaDate: string | null;
   firstUseDate: string | null;
+  rewardBonusCount: number;
+  lastRewardDate: string | null;
 
   isPremium: () => boolean;
   getDailyLimit: () => number;
   getRemaining: () => number;
   canUseGacha: () => boolean;
   incrementGacha: () => void;
+  canWatchRewardAd: () => boolean;
+  addRewardBonus: () => void;
   purchase: () => Promise<void>;
   restore: () => Promise<void>;
   checkStatus: () => void;
@@ -28,6 +32,8 @@ export const useSubscriptionStore = create<SubscriptionState>()(
       dailyGachaCount: 0,
       lastGachaDate: null,
       firstUseDate: null,
+      rewardBonusCount: 0,
+      lastRewardDate: null,
 
       isPremium: () => {
         const { tier, expiresAt } = get();
@@ -52,9 +58,10 @@ export const useSubscriptionStore = create<SubscriptionState>()(
         if (get().isPremium()) return Infinity;
         const limit = get().getDailyLimit();
         const today = new Date().toISOString().slice(0, 10);
-        const { dailyGachaCount, lastGachaDate } = get();
+        const { dailyGachaCount, lastGachaDate, rewardBonusCount, lastRewardDate } = get();
         const used = lastGachaDate === today ? dailyGachaCount : 0;
-        return Math.max(0, limit - used);
+        const bonus = lastRewardDate === today ? rewardBonusCount : 0;
+        return Math.max(0, limit + bonus - used);
       },
 
       canUseGacha: () => {
@@ -76,6 +83,24 @@ export const useSubscriptionStore = create<SubscriptionState>()(
           updates.dailyGachaCount = dailyGachaCount + 1;
         }
         set(updates as SubscriptionState);
+      },
+
+      canWatchRewardAd: () => {
+        if (get().isPremium()) return false;
+        const today = new Date().toISOString().slice(0, 10);
+        const { rewardBonusCount, lastRewardDate } = get();
+        const todayBonus = lastRewardDate === today ? rewardBonusCount : 0;
+        return todayBonus < 3; // Max 3 reward ads per day
+      },
+
+      addRewardBonus: () => {
+        const today = new Date().toISOString().slice(0, 10);
+        const { rewardBonusCount, lastRewardDate } = get();
+        if (lastRewardDate !== today) {
+          set({ rewardBonusCount: 1, lastRewardDate: today });
+        } else {
+          set({ rewardBonusCount: rewardBonusCount + 1 });
+        }
       },
 
       // TODO: Implement real IAP with expo-in-app-purchases

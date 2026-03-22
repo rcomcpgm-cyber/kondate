@@ -83,10 +83,10 @@ function GachaAnimation({ onComplete }: { onComplete: () => void }) {
       withTiming(0, { duration: isHigh ? 600 : 300 }),
     );
 
-    // Scale bounce on reveal
+    // Scale bounce on reveal (clamped to avoid going off-screen)
     scale.value = withSequence(
-      withTiming(1.5, { duration: 200, easing: Easing.out(Easing.back(3)) }),
-      withSpring(1, { damping: 8, stiffness: 100 }),
+      withTiming(1.2, { duration: 200, easing: Easing.out(Easing.back(1.5)) }),
+      withSpring(1, { damping: 12, stiffness: 120 }),
     );
 
     setTimeout(() => {
