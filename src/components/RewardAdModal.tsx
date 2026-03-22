@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
-const REWARD_AD_ID = 'fe0b86fd1de3479945b6b0f25cd90d9d';
+const REWARD_AD_ID = '885eddc4d4ad85e4695a6ab1e5320460';
 const COUNTDOWN_SECONDS = 10;
 
 interface RewardAdModalProps {
